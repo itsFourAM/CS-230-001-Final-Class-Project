@@ -1,0 +1,150 @@
+#include <iostream>
+#include <limits>
+#include "PatientList.h"
+
+using namespace std;
+
+int main() {
+    PatientList patientList;
+    int choice;
+
+    do {
+        cout << "\n===== Patient Appointment System =====\n";
+        cout << "1. Add Patient\n";
+        cout << "2. Find Patient\n";
+        cout << "3. Remove/Delete Patient\n";
+        cout << "4. Show All Patients\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        while (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Enter a number: ";
+            cin >> choice;
+        }
+
+        cin.ignore();
+
+        if (choice == 1) {
+            string name, appointmentDate;
+            int id, age;
+
+            cout << "\nEnter patient name: ";
+            getline(cin, name);
+
+            cout << "Enter patient ID: ";
+            cin >> id;
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a valid ID: ";
+                cin >> id;
+            }
+
+            cout << "Enter patient age: ";
+            cin >> age;
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a valid age: ";
+                cin >> age;
+            }
+            cin.ignore();
+
+            cout << "Enter appointment date (mm-dd-yyyy): ";
+            getline(cin, appointmentDate);
+
+            patientList.addPatient(name, id, age, appointmentDate);
+        }
+
+        else if (choice == 2) {
+            int id;
+
+            cout << "\nEnter patient ID to find: ";
+            cin >> id;
+
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a valid ID: ";
+                cin >> id;
+            }
+            cin.ignore();
+
+            Patient* foundPatient = patientList.findPatientById(id);
+
+            if (foundPatient != nullptr) {
+                cout << "\nPatient Found:\n";
+                cout << "----------------------\n";
+                foundPatient->displayInfo();
+
+                int subChoice;
+                cout << "\nWould you like to reschedule the appointment?\n";
+                cout << "1. Yes\n";
+                cout << "2. No\n";
+                cout << "Enter choice: ";
+                cin >> subChoice;
+
+                while (cin.fail() || (subChoice != 1 && subChoice != 2)) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Enter 1 or 2: ";
+                    cin >> subChoice;
+                }
+                cin.ignore();
+
+                if (subChoice == 1) {
+                    string newDate;
+                    cout << "Enter new appointment date: ";
+                    getline(cin, newDate);
+
+                    foundPatient->setAppointmentDate(newDate);
+                    cout << "Appointment successfully rescheduled.\n";
+                } else {
+                    cout << "No changes made.\n";
+                }
+            } else {
+                cout << "Patient not found.\n";
+            }
+        }
+
+        else if (choice == 3) {
+            int id;
+
+            cout << "\nEnter patient ID to delete: ";
+            cin >> id;
+
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Enter a valid ID: ";
+                cin >> id;
+            }
+            cin.ignore();
+
+            if (patientList.deletePatient(id)) {
+                cout << "Patient deleted successfully.\n";
+            } else {
+                cout << "Patient not found.\n";
+            }
+        }
+
+        else if (choice == 4) {
+            cout << "\n===== Patient List (Alphabetical Order) =====\n";
+            patientList.displayAllPatients();
+        }
+
+        else if (choice == 5) {
+            cout << "Exiting program...\n";
+        }
+
+        else {
+            cout << "Invalid choice. Please try again.\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
