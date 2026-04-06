@@ -1,31 +1,29 @@
+//mypatients.h
 #ifndef MYPATIENTS_H
 #define MYPATIENTS_H
 
-#include <string>
+#include "Person.h"
 #include <iostream>
+using namespace std;
 
-class Patient {
+class Patient : public Person {
 private:
-    std::string name;
-    int id;
     int age;
-    std::string appointmentDate;   // mm-dd-yyyy
+    string appointmentDate;   // mm-dd-yyyy
 
 public:
     Patient();
-    Patient(const std::string& n, int i, int a, const std::string& apptDate);
+    Patient(string n, int i, int a, string apptDate);
 
-    std::string getName() const;
-    int getId() const;
     int getAge() const;
-    std::string getAppointmentDate() const;
+    string getAppointmentDate() const;
 
-    void setName(const std::string& n);
-    void setId(int i);
     void setAge(int a);
-    void setAppointmentDate(const std::string& apptDate);
+    void setAppointmentDate(string apptDate);
 
-    friend std::ostream& operator<<(std::ostream& os, const Patient& p);
+    void displayInfo() const override;
+
+    friend ostream& operator<<(ostream& os, const Patient& p);
 };
 
 #endif
