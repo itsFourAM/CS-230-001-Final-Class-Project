@@ -1,43 +1,35 @@
+//mypatients.cpp
 #include "mypatients.h"
 
-Patient::Patient() : name(""), id(0), age(0), appointmentDate("") {}
+Patient::Patient() : Person(), age(0), appointmentDate("") {}
 
-Patient::Patient(const std::string& n, int i, int a, const std::string& apptDate)
-    : name(n), id(i), age(a), appointmentDate(apptDate) {}
-
-std::string Patient::getName() const {
-    return name;
-}
-
-int Patient::getId() const {
-    return id;
-}
+Patient::Patient(string n, int i, int a, string apptDate)
+    : Person(n, i), age(a), appointmentDate(apptDate) {}
 
 int Patient::getAge() const {
     return age;
 }
 
-std::string Patient::getAppointmentDate() const {
+string Patient::getAppointmentDate() const {
     return appointmentDate;
-}
-
-void Patient::setName(const std::string& n) {
-    name = n;
-}
-
-void Patient::setId(int i) {
-    id = i;
 }
 
 void Patient::setAge(int a) {
     age = a;
 }
 
-void Patient::setAppointmentDate(const std::string& apptDate) {
+void Patient::setAppointmentDate(string apptDate) {
     appointmentDate = apptDate;
 }
 
-std::ostream& operator<<(std::ostream& os, const Patient& p) {
+void Patient::displayInfo() const {
+    cout << "Name: " << name << endl;
+    cout << "ID: " << id << endl;
+    cout << "Age: " << age << endl;
+    cout << "Appointment Date: " << appointmentDate << endl;
+}
+
+ostream& operator<<(ostream& os, const Patient& p) {
     os << "[Name: " << p.getName()
        << ", ID#: " << p.getId()
        << ", Age: " << p.getAge()
